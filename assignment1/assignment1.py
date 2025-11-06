@@ -21,7 +21,7 @@ def calc(num1, num2, operation="multiply"):
             return num1 / num2
         elif operation == "modulo":
             return num1 % num2
-        elif operation == "exponent":
+        elif operation == "power":
             return num1 ** num2
         elif operation == "int_divide":
             return num1 // num2
@@ -43,7 +43,7 @@ def data_type_conversion(value, target_type):
         else:
             return "Invalid target type."
     except ValueError:
-        return f"You can't convert '{value}' into a '{target_type}'."
+        return f"You can't convert {value} into a {target_type}."
     
 #Task 5
 def grade(*args):
@@ -80,10 +80,11 @@ def student_scores(best, **kwargs):
 # Task 8
 def titleize(sentence):
     smallWords = ["a", "on", "an", "the", "of", "and", "is", "in"]
+    words=sentence.split()
     result = []
 
     for i, word in enumerate(sentence.split()):
-        if i==0 or  i==len(sentence)-1 or word.lower() not in smallWords:
+        if i==0 or  i==len(words)-1 or word.lower() not in smallWords:
             word = word.capitalize()
         result.append(word)
     return ' '.join(result)
@@ -100,19 +101,18 @@ def hangman(secret, guess):
     return result
 
 # Task 10
-def pigLatin(sentence):
+def pig_latin(sentence):
     vowels = "aeiou"
     def convertWord(word):
-        if word.startswith("qu"):
-           return word[:2] + "ay" #Keeps the first two letters together for a qu start
-        elif word[0] in vowels:
+        if word[0] in vowels:
             return word + "ay"
-        else:
-            for i, letter in enumerate(word):
-                if letter in vowels or (letter=='q' and i+1 <len(word) and word[i+1]=='u'):
-                    newWord=word[i:] + word[:i] + "ay"
-                    return newWord
-            return word + "ay"  # for words without vowels
+            #building a consonant cluster to include words like quick square or others that have multiple consonants
+       cluster_end=0
+    while cluster_end < len(word) and word[cluster_end +1 < len(word) and word[cluster_end + 1] =="u"
+        cluster_end+=2
+        break
+    cluster_end+=1
+    return word[cluster_end:]+word[:cluster_end]+"ay"
     return ' '.join(convertWord(word) for word in sentence.split())
 
 
@@ -126,5 +126,5 @@ print(repeat("up,", 4))
 print(student_scores("best", Tom=75, Mike=89, Angela=91))
 print(titleize("war and peace"))
 print(hangman("alphabet", "ab"))
-print(pigLatin("the quick brown fox"))
+print(pig_latin("the quick brown fox"))
 
