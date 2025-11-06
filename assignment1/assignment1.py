@@ -107,12 +107,13 @@ def pig_latin(sentence):
         if word[0] in vowels:
             return word + "ay"
             #building a consonant cluster to include words like quick square or others that have multiple consonants
-       cluster_end=0
-    while cluster_end < len(word) and word[cluster_end +1 < len(word) and word[cluster_end + 1] =="u"
-        cluster_end+=2
-        break
-    cluster_end+=1
-    return word[cluster_end:]+word[:cluster_end]+"ay"
+        cluster_end=0
+        while cluster_end < len(word) and word[cluster_end] not in vowels:
+            if (word[cluster_end]=="q" and cluster_end+1 < len(word) and word[cluster_end+1]=="u"):
+                cluster_end+=2
+                break
+            cluster_end+=1
+        return word[cluster_end:]+word[:cluster_end]+"ay"
     return ' '.join(convertWord(word) for word in sentence.split())
 
 
