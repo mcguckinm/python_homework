@@ -32,7 +32,7 @@ def calc(num1, num2, operation="multiply"):
     
 # Task 4
 
-def dataTypeConversion(value, target_type):
+def data_type_conversion(value, target_type):
     try:
         if target_type == "int":
             return int(value)
@@ -43,10 +43,10 @@ def dataTypeConversion(value, target_type):
         else:
             return "Invalid target type."
     except ValueError:
-        return "You can't convert " + str(value) + " into a " + target_type + "."
+        return f"You can't convert '{value}' into a '{target_type}'."
     
 #Task 5
-def gradingSystem(*args):
+def grade(*args):
     try:
         average = sum(args) / len(args)
         if average >= 90:
@@ -64,16 +64,18 @@ def gradingSystem(*args):
     
 #Task 6
 def repeat(string, count):
+    result = ""
     for _ in range(count):
-        string += string
-    return string
+        result += string
+    return result
 # Task 7
-def studentScores(best, **kwargs):
-    for key, value in kwargs.items():
+def student_scores(best, **kwargs):
         if best == "mean":
             return sum(kwargs.values()) / len(kwargs)
         elif best == "best":
             return max(kwargs, key=kwargs.get)
+        else:
+            return "Invalid option."
 
 # Task 8
 def titleize(sentence):
@@ -81,7 +83,7 @@ def titleize(sentence):
     result = []
 
     for i, word in enumerate(sentence.split()):
-        if i==0 or word.lower() not in smallWords:
+        if i==0 or  i==len(sentence)-1 or word.lower() not in smallWords:
             word = word.capitalize()
         result.append(word)
     return ' '.join(result)
@@ -102,7 +104,7 @@ def pigLatin(sentence):
     vowels = "aeiou"
     def convertWord(word):
         if word.startswith("qu"):
-            newWord=word[:2] + "ay" #Keeps the first two letters together for a qu start
+           return word[:2] + "ay" #Keeps the first two letters together for a qu start
         elif word[0] in vowels:
             return word + "ay"
         else:
@@ -118,10 +120,11 @@ def pigLatin(sentence):
 hello()
 greet("Mike")
 print(calc(5, 6, "add"))
-print(dataTypeConversion("124", "int"))
-print(gradingSystem(75, 85, 95))
+print(data_type_conversion("124", "int"))
+print(grade(75, 85, 95))
 print(repeat("up,", 4))
-print(studentScores("best", Tom=75, Mike=89, Angela=91))
+print(student_scores("best", Tom=75, Mike=89, Angela=91))
 print(titleize("war and peace"))
 print(hangman("alphabet", "ab"))
 print(pigLatin("the quick brown fox"))
+
