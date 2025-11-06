@@ -1,10 +1,10 @@
 # Task 1
-def hello_world():
-    print("Hello, World!")
+def hello():
+    return "Hello!"
 
 # Task 2
 def greet(name):
-    print("Hello, " + name+ "!")
+    return "Hello, " + name + "!"
 
 #Task 3
 def calc(num1, num2, operation="multiply"):
@@ -67,7 +67,6 @@ def repeat(string, count):
     for _ in range(count):
         string += string
     return string
-    
 # Task 7
 def studentScores(best, **kwargs):
     for key, value in kwargs.items():
@@ -102,18 +101,21 @@ def hangman(secret, guess):
 def pigLatin(sentence):
     vowels = "aeiou"
     def convertWord(word):
-        if word[0] in vowels:
+        if word.startswith("qu"):
+            newWord=word[:2] + "ay" #Keeps the first two letters together for a qu start
+        elif word[0] in vowels:
             return word + "ay"
         else:
             for i, letter in enumerate(word):
-                if letter in vowels:
-                    return word[i:] + word[:i] + "ay"
+                if letter in vowels or (letter=='q' and i+1 <len(word) and word[i+1]=='u'):
+                    newWord=word[i:] + word[:i] + "ay"
+                    return newWord
             return word + "ay"  # for words without vowels
     return ' '.join(convertWord(word) for word in sentence.split())
 
 
 # call the functions
-hello_world()
+hello()
 greet("Mike")
 print(calc(5, 6, "add"))
 print(dataTypeConversion("124", "int"))
@@ -123,4 +125,3 @@ print(studentScores("best", Tom=75, Mike=89, Angela=91))
 print(titleize("war and peace"))
 print(hangman("alphabet", "ab"))
 print(pigLatin("the quick brown fox"))
-
