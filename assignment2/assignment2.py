@@ -1,6 +1,5 @@
 #Task 2
 import csv
-import os
 
 def read_employees():
     employees = {}
@@ -80,8 +79,6 @@ def employee_find_2(employee_id):
     return matches
 print(employee_find_2('10'))
 
-#Task 7
-
 def sort_by_last_name():
     if 'rows' in employees:
         sorted_employees = sorted(employees['rows'], key=lambda row: row[column_index('last_name')])
@@ -91,37 +88,3 @@ def sort_by_last_name():
         return None
     
 print(sort_by_last_name())
-
-#Task 8
-def employee_dict(employee_row):
-    if 'fields' in employees:
-        employee_dict = {}
-        for i, field in enumerate(employees['fields']):
-            if field != 'employee_id':  # Exclude employee_id
-                employee_dict[field] = employee_row[i]
-        return employee_dict
-    else:
-        print("No fields found in employees data.")
-        return None
-    
-print(employee_dict(employees['rows'][0]))
-
-#Task 9
-def all_employees_dict():
-    if 'rows' in employees:
-        all_employees = {}
-        for row in employees['rows']:
-            emp_id = row[column_index('employee_id')]
-            all_employees[emp_id] = employee_dict(row)
-        return all_employees
-    else:
-        print("No rows found in employees data.")
-        return None
-    
-print(all_employees_dict())
-
-#Task 10
-def get_this_value():
-    THISVALUE = os.getenv('THISVALUE', 'ABC')
-    return THISVALUE
-print(get_this_value())
