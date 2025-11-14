@@ -1,18 +1,13 @@
 import traceback
 
 try:
-    with open('diary.txt', 'w') as file:
-        while True:
-            entry = input("What happened today? " )
+    with open('diary.txt', 'a') as file:
+        entry = input("What happened today?" )
+        
+        while entry.lower() != 'done for now':
+            entry = input("What else?" )
             file.write(entry + '\n')
-            whatelse = input("Anything else to add? (yes/no) ")
-            while whatelse.lower() == 'yes':
-                entry = input("What else? " )
-                file.write(entry + '\n')
-                whatelse = input("Anything else to add? (yes/no) ")
-            if whatelse.lower() == 'no':
-                print("Your diary has been updated.")
-                break
+            
 
 except Exception as e:
     trace_back = traceback.extract_tb(e.__traceback__)
