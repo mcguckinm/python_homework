@@ -65,10 +65,9 @@ print(first_name(3))
 #Task 5
 def employee_find(employee_id):
     emp_col = column_index('employee_id')
-    for row in employees['rows']:
-        if int(row[emp_col]) == employee_id:
-            return row
-    return None
+    employee_id = int(employee_id)
+    matches = list(filter(lambda row: int(row[emp_col]) == employee_id, employees['rows']))
+    return matches
     
 print(employee_find('10'))
 
@@ -150,12 +149,16 @@ def read_minutes():
         stack_trace= []
         for trace in trace_back:
             stack_trace.append(f'File : {trace[0]} , Line : {trace[1]} , Func.Name : {trace[2]} , Message : {trace[3]}')
+        print(f"An error occurred: {e}")
         print(f"Exception type: {type(e).__name__}")
         message = str(e)
-        print(f"Exception message: {message}")
+        if message:
+            print(f"Exception message: {message}")
         print(f"Stack trace: {stack_trace}")
         return None, None
-    
+minutes1, minutes2 = read_minutes()
+print(minutes1)
+print(minutes2)    
     #Task 13
 def create_minutes_set():
     minutes_set = set()
@@ -177,7 +180,7 @@ def create_minutes_list():
     return minutes_list
 
 #Task 15
-def write_minutes_csv():
+def write_sorted_list():
     minutes_list = create_minutes_list()
     minutes_list.sort(key=lambda x: x[1])
     with open('../csv/sorted_minutes.csv', 'w', newline='') as file:
@@ -185,4 +188,6 @@ def write_minutes_csv():
         writer.writerow(['Name', 'Date'])
         for name, date in minutes_list:
             writer.writerow([name, date.strftime('%B %d, %Y')])
+
+    return minutes_list
 
