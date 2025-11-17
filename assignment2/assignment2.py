@@ -1,5 +1,8 @@
 #Task 2
 import csv
+import os
+import traceback
+import custom_module
 
 def read_employees():
     employees = {}
@@ -79,6 +82,8 @@ def employee_find_2(employee_id):
     return matches
 print(employee_find_2('10'))
 
+#Task 7
+
 def sort_by_last_name():
     if 'rows' in employees:
         sorted_employees = sorted(employees['rows'], key=lambda row: row[column_index('last_name')])
@@ -88,3 +93,97 @@ def sort_by_last_name():
         return None
     
 print(sort_by_last_name())
+
+#Task 8
+def employee_dict(employee_row):
+    if 'fields' in employees:
+        employee_dict = {}
+        for i, field in enumerate(employees['fields']):
+            if field != 'employee_id':  # Exclude employee_id
+                employee_dict[field] = employee_row[i]
+        return employee_dict
+    else:
+        print("No fields found in employees data.")
+        return None
+    
+print(employee_dict(employees['rows'][0]))
+
+#Task 9
+def all_employees_dict():
+    if 'rows' in employees:
+        all_employees = {}
+        for row in employees['rows']:
+            emp_id = row[column_index('employee_id')]
+            all_employees[emp_id] = employee_dict(row)
+        return all_employees
+    else:
+        print("No rows found in employees data.")
+        return None
+    
+print(all_employees_dict())
+
+#Task 10
+def get_this_value():
+    THISVALUE = os.getenv('THISVALUE', 'ABC')
+    return THISVALUE
+print(get_this_value())
+
+#Task 11
+
+def set_that_secret(new_secret):
+    custom_module.set_secret()
+    print(new_secret)
+
+#Task 12
+
+def read_csv_as_dict(path):
+    result = {}
+    with open(path, 'r') as file:
+        reader = csv.reader(file)
+        result['fields']=next(reader)
+        result['rows'] = [tuple(row) for row in reader]
+    return result
+
+def read_minutes():
+    try:
+        minutes1 = read_csv_as_dict('../csv/minutes_1.csv')
+        minutes2 = read_csv_as_dict('../csv/minutes_2.csv')
+        return minutes1, minutes2
+    except Exception as e:
+        trace_back = traceback.extract_tb(e.__traceback__)
+        stack_trace= []
+        for trace in trace_back:
+            stack_trace.append(f'File : {trace[0]} , Line : {trace[1]} , Func.Name : {trace[2]} , Message : {trace[3]}')
+        print(f"Exception type: {type(e).__name__}")
+        message = str(e)
+        print(f"Exception message: {message}")
+        print(f"Stack trace: {stack_trace}")
+        return None, None
+    
+    #Task 13
+def create_minutes_set():
+    minutes_set = set()
+    minutes1, minutes2 = read_minutes()
+    if minutes1 and minutes2:
+        for row in minutes1['rows']:
+            minutes_set.add(row)
+        for row in minutes2['rows']:
+            minutes_set.add(row)
+    return minutes_set
+
+print(create_minutes_set())
+
+#Task 14
+def create_minutes_list():
+    minutes_list = []
+    map()(lambda x: minutes_list.append(tuple(x)), create_minutes_set())
+    minutes1, minutes2 = read_minutes()
+    if minutes1 and minutes2:
+        for row in minutes1['rows']:
+            minutes_list.append(row)
+        for row in minutes2['rows']:
+            minutes_list.append(row)
+    return minutes_list
+
+print(create_minutes_list())
+
