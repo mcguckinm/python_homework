@@ -3,6 +3,7 @@ import csv
 import os
 import traceback
 import custom_module
+from datetime import datetime
 
 def read_employees():
     employees = {}
@@ -38,8 +39,10 @@ def column_index(column_name):
     else:
         print("No fields found in employees data.")
         return None
+    
+employee_id_column = column_index('employee_id')
+print(employee_id_column)
 
-print(column_index('employee_id'))
 
 
 #task 4
@@ -61,25 +64,18 @@ print(first_name(3))
 
 #Task 5
 def employee_find(employee_id):
-    if 'rows' in employees:
-        for row in employees['rows']:
-            def employee_match(row):
-                return row[column_index('employee_id')] == employee_id
-            matches=list(filter(employee_match, employees['rows']))
-            if matches:
-                return matches[0]
-        print(f"Employee with ID {employee_id} not found.")
-        return None
-    else:
-        print("No rows found in employees data.")
-        return None
+    emp_col = column_index('employee_id')
+    for row in employees['rows']:
+        if int(row[emp_col]) == employee_id:
+            return row
+    return None
     
 print(employee_find('10'))
 
 #Task 6
 def employee_find_2(employee_id):
-    matches = list(filter(lambda row: row[column_index('employee_id')] == employee_id, employees['rows']))
-    return matches
+    emp_col = column_index('employee_id')
+    return list(filter(lambda row: int(row[emp_col]) == employee_id, employees['rows']))
 print(employee_find_2('10'))
 
 #Task 7
@@ -131,7 +127,7 @@ print(get_this_value())
 #Task 11
 
 def set_that_secret(new_secret):
-    custom_module.set_secret()
+    custom_module.set_secret(new_secret)
     print(new_secret)
 
 #Task 12
@@ -146,8 +142,8 @@ def read_csv_as_dict(path):
 
 def read_minutes():
     try:
-        minutes1 = read_csv_as_dict('../csv/minutes_1.csv')
-        minutes2 = read_csv_as_dict('../csv/minutes_2.csv')
+        minutes1 = read_csv_as_dict('../csv/minutes1.csv')
+        minutes2 = read_csv_as_dict('../csv/minutes2.csv')
         return minutes1, minutes2
     except Exception as e:
         trace_back = traceback.extract_tb(e.__traceback__)
@@ -175,15 +171,18 @@ print(create_minutes_set())
 
 #Task 14
 def create_minutes_list():
-    minutes_list = []
-    map()(lambda x: minutes_list.append(tuple(x)), create_minutes_set())
-    minutes1, minutes2 = read_minutes()
-    if minutes1 and minutes2:
-        for row in minutes1['rows']:
-            minutes_list.append(row)
-        for row in minutes2['rows']:
-            minutes_list.append(row)
+    minutes_set= create_minutes_set()
+    minutes_list = list(map(lambda x: (x[0], datetime.strptime(x[1], '%B %d, %Y')), minutes_set))
+
     return minutes_list
 
-print(create_minutes_list())
+#Task 15
+def write_minutes_csv():
+    minutes_list = create_minutes_list()
+    minutes_list.sort(key=lambda x: x[1])
+    with open('../csv/sorted_minutes.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Name', 'Date'])
+        for name, date in minutes_list:
+            writer.writerow([name, date.strftime('%B %d, %Y')])
 
