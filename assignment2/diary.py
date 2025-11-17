@@ -2,14 +2,14 @@ import traceback
 
 try:
     with open('diary.txt', 'a') as file:
-        entry = input("What happened today?" )
+        entry = input("What happened today? " )
 
         while True:
             file.write(entry +'\n')
             if entry.lower() == "done for now":
                 break
            
-            entry = input("What else?" )
+            entry = input("What else? " )
             
 
 except Exception as e:
