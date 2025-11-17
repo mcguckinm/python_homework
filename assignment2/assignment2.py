@@ -183,7 +183,7 @@ def create_minutes_list():
 def write_sorted_list():
     minutes_list = create_minutes_list()
     minutes_list.sort(key=lambda x: x[1])
-    with open('../csv/sorted_minutes.csv', 'w', newline='') as file:
+    with open('./csv/minutes.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['Name', 'Date'])
         for name, date in minutes_list:
