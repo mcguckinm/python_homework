@@ -1,8 +1,5 @@
 #Task 6
 
-from sqlalchemy import false
-
-
 class TictactoeException(Exception):
     def __init__(self, message):
         self.message = message
@@ -11,23 +8,24 @@ class TictactoeException(Exception):
 class Board:
     valid_moves = ["upper left", "upper middle", "upper right", "middle left", "center", "middle right", "lower left", "lower middle", "lower right"]
     def __init__(self):
-        self.board = [[" " for _ in range(3)] for _ in range(3)]
+        self.board_array = [[" " for _ in range(3)] for _ in range(3)]
+        self.turn = "X"
     def display(self):
-        for row in self.board:
+        for row in self.board_array:
             print("|".join(row))
             print("-" * 5)
     def make_move(self, player, row, col):
-        if self.board[row][col] != " ":
+        if self.board_array[row][col] != " ":
             raise TictactoeException("Cell is already occupied")
-        self.board[row][col] = player
+        self.board_array[row][col] = player
 
     def __str__(self):
         lines = []
-        lines.append(f" {self.board[0][0]} | {self.board[0][1]} | {self.board[0][2]} \n")
+        lines.append(f" {self.board_array[0][0]} | {self.board_array[0][1]} | {self.board_array[0][2]} \n")
         lines.append("-----------\n")
-        lines.append(f" {self.board[1][0]} | {self.board[1][1]} | {self.board[1][2]} \n")
+        lines.append(f" {self.board_array[1][0]} | {self.board_array[1][1]} | {self.board_array[1][2]} \n")
         lines.append("-----------\n")
-        lines.append(f" {self.board[2][0]} | {self.board[2][1]} | {self.board[2][2]} \n")
+        lines.append(f" {self.board_array[2][0]} | {self.board_array[2][1]} | {self.board_array[2][2]} \n")
         return "".join(lines)
     
     def move(self, move_string):
