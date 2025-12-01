@@ -2,11 +2,10 @@ def make_hangman(secret_word):
     guesses = []
     def hangman_closure(letter):
         guesses.append(letter)
-        if letter in secret_word:
-            display="".join([char if char in guesses else "_" for char in secret_word])
-            print(display)
+        display="".join([char if char in guesses else "_" for char in secret_word])
+        print(display)
 
-            return "_" not in display
+        return "_" not in display
         
     
     return hangman_closure
