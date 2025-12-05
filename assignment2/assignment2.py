@@ -1,5 +1,9 @@
 #Task 2
 import csv
+import os
+import traceback
+import custom_module
+from datetime import datetime
 
 def read_employees():
     employees = {}
@@ -35,8 +39,10 @@ def column_index(column_name):
     else:
         print("No fields found in employees data.")
         return None
+    
+employee_id_column = column_index('employee_id')
+print(employee_id_column)
 
-print(column_index('employee_id'))
 
 
 #task 4
@@ -58,26 +64,20 @@ print(first_name(3))
 
 #Task 5
 def employee_find(employee_id):
-    if 'rows' in employees:
-        for row in employees['rows']:
-            def employee_match(row):
-                return row[column_index('employee_id')] == employee_id
-            matches=list(filter(employee_match, employees['rows']))
-            if matches:
-                return matches[0]
-        print(f"Employee with ID {employee_id} not found.")
-        return None
-    else:
-        print("No rows found in employees data.")
-        return None
+    emp_col = column_index('employee_id')
+    employee_id = int(employee_id)
+    matches = list(filter(lambda row: int(row[emp_col]) == employee_id, employees['rows']))
+    return matches
     
 print(employee_find('10'))
 
 #Task 6
 def employee_find_2(employee_id):
-    matches = list(filter(lambda row: row[column_index('employee_id')] == employee_id, employees['rows']))
-    return matches
+    emp_col = column_index('employee_id')
+    return list(filter(lambda row: int(row[emp_col]) == employee_id, employees['rows']))
 print(employee_find_2('10'))
+
+#Task 7
 
 def sort_by_last_name():
     if 'rows' in employees:
@@ -88,3 +88,106 @@ def sort_by_last_name():
         return None
     
 print(sort_by_last_name())
+
+#Task 8
+def employee_dict(employee_row):
+    if 'fields' in employees:
+        employee_dict = {}
+        for i, field in enumerate(employees['fields']):
+            if field != 'employee_id':  # Exclude employee_id
+                employee_dict[field] = employee_row[i]
+        return employee_dict
+    else:
+        print("No fields found in employees data.")
+        return None
+    
+print(employee_dict(employees['rows'][0]))
+
+#Task 9
+def all_employees_dict():
+    if 'rows' in employees:
+        all_employees = {}
+        for row in employees['rows']:
+            emp_id = row[column_index('employee_id')]
+            all_employees[emp_id] = employee_dict(row)
+        return all_employees
+    else:
+        print("No rows found in employees data.")
+        return None
+    
+print(all_employees_dict())
+
+#Task 10
+def get_this_value():
+    THISVALUE = os.getenv('THISVALUE', 'ABC')
+    return THISVALUE
+print(get_this_value())
+
+#Task 11
+
+def set_that_secret(new_secret):
+    custom_module.set_secret(new_secret)
+    print(new_secret)
+
+#Task 12
+
+def read_csv_as_dict(path):
+    result = {}
+    with open(path, 'r') as file:
+        reader = csv.reader(file)
+        result['fields']=next(reader)
+        result['rows'] = [tuple(row) for row in reader]
+    return result
+
+def read_minutes():
+    try:
+        minutes1 = read_csv_as_dict('../csv/minutes1.csv')
+        minutes2 = read_csv_as_dict('../csv/minutes2.csv')
+        return minutes1, minutes2
+    except Exception as e:
+        trace_back = traceback.extract_tb(e.__traceback__)
+        stack_trace= []
+        for trace in trace_back:
+            stack_trace.append(f'File : {trace[0]} , Line : {trace[1]} , Func.Name : {trace[2]} , Message : {trace[3]}')
+        print(f"An error occurred: {e}")
+        print(f"Exception type: {type(e).__name__}")
+        message = str(e)
+        if message:
+            print(f"Exception message: {message}")
+        print(f"Stack trace: {stack_trace}")
+        return None, None
+minutes1, minutes2 = read_minutes()
+print(minutes1)
+print(minutes2)    
+    #Task 13
+def create_minutes_set():
+    minutes_set = set()
+    minutes1, minutes2 = read_minutes()
+    if minutes1 and minutes2:
+        for row in minutes1['rows']:
+            minutes_set.add(row)
+        for row in minutes2['rows']:
+            minutes_set.add(row)
+    return minutes_set
+
+print(create_minutes_set())
+
+#Task 14
+def create_minutes_list():
+    minutes_set= create_minutes_set()
+    minutes_list = list(map(lambda x: (x[0], datetime.strptime(x[1], '%B %d, %Y')), minutes_set))
+
+    return minutes_list
+
+#Task 15
+def write_sorted_list():
+    minutes_list = create_minutes_list()
+    minutes_list.sort(key=lambda x: x[1])
+    with open('./minutes.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Name', 'Date'])
+        for name, date in minutes_list:
+            writer.writerow([name, date.strftime('%B %d, %Y')])
+
+    return minutes_list
+
