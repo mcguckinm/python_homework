@@ -176,7 +176,7 @@ def main():
         rows = cursor.fetchall()
         print("\nAll Magazines sorted by name")
         for row in rows:
-            print(rows)
+            print(row)
 
         cursor.execute("""SELECT magazines.* FROM magazines 
                        JOIN publishers ON magazines.publisher_id = publisher_id 
