@@ -31,4 +31,6 @@ summary = df.groupby("product_id").agg({"line_item_id": "count", "total": "sum",
 
 print(summary.head())
 
+summary = summary.sort_values("product_name")
+
 summary.to_csv("order_summary.csv")
