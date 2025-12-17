@@ -25,11 +25,11 @@ def hello_world():
 
 @logger_decorator
 def positionals(*args):
-    return True
+    return args
 
 @logger_decorator
 def keywords(**kwargs):
-    return logger_decorator
+    return kwargs
 
 
 # Mainline code
