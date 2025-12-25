@@ -6,7 +6,7 @@ class TictactoeException(Exception):
     pass
 
 class Board:
-    valid_moves = ["upper left", "upper middle", "upper right", "middle left", "center", "middle right", "lower left", "lower middle", "lower right"]
+    valid_moves = ["upper left", "upper center", "upper right", "middle left", "center", "middle right", "lower left", "lower center", "lower right"]
     def __init__(self):
         self.board_array = [[" " for _ in range(3)] for _ in range(3)]
         self.turn = "X"
@@ -82,3 +82,21 @@ class Board:
             else:
                 return (True, "Player X wins!")
                 
+
+
+
+#mainline code
+
+board= Board()
+print(board)
+while True:
+    try:
+        move = input("Enter your move: ")
+        board.move(move)
+        print(board)
+        game_over, message = board.what_next()
+        print(message)
+        if game_over:
+            break
+    except TictactoeException as e:
+        print(e.message)
