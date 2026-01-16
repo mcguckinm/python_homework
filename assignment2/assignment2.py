@@ -2,7 +2,7 @@
 import csv
 import os
 import traceback
-import custom_module
+from . import custom_module
 from datetime import datetime
 
 def read_employees():
@@ -170,7 +170,7 @@ def create_minutes_set():
             minutes_set.add(row)
     return minutes_set
 
-print(create_minutes_set())
+
 
 #Task 14
 def create_minutes_list():
@@ -191,3 +191,5 @@ def write_sorted_list():
 
     return minutes_list
 
+minutes_set= create_minutes_set()
+minutes_list= create_minutes_list()
