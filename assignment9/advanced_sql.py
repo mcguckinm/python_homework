@@ -56,7 +56,7 @@ def employees_with_more_than_5_orders(cursor):
     rows = cursor.fetchall()
 
     print("\nTask 4")
-    for employee_id, first_name, last_name, order_count, in rows:
+    for employee_id, first_name, last_name, order_count in rows:
         print(f"{employee_id}: {first_name} {last_name} - {order_count} orders")
 
 def main():
