@@ -52,7 +52,7 @@ def main():
                 format_year = ""
 
             extracted.append({
-                "Title: ": title,
+                "Title": title,
                 "Author": author_text,
                 "Format-Year": format_year
             })
@@ -67,7 +67,7 @@ def main():
 
         df.to_csv(csv_path, index=False, encoding="utf-8")
 
-        with open("results.json", "w", encoding="utf-8") as f:
+        with open("get_books.json", "w", encoding="utf-8") as f:
                 json.dump(extracted, f, indent=2, ensure_ascii=False)
 
     finally:
