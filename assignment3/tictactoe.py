@@ -43,18 +43,7 @@ class Board:
             self.turn = "X"
 
     def what_next(self):
-        cat = True
-        for i in range(3):
-            for j in range(3):
-                if self.board_array[i][j] == " ":
-                    cat = False
-                else:
-                    continue
-                break
-            else:
-                continue
-            break
-        if (cat):
+        if all(self.board_array[i][j] != " " for i in range(3) for j in range(3)):
             return (True, "Cat's Game.")
         win = False
         for i in range(3): #check columns
@@ -71,16 +60,10 @@ class Board:
                 win = True
             elif self.board_array[0][2] == self.board_array[1][1] == self.board_array[2][0] != " ":
                 win = True
-        if not win:
-            if self.turn == "X":
-                return (False, "Player X's turn.")
-            else:
-                return (False, "Player O's turn.")
-        else:
-            if self.turn == "X":
-                return (True, "Player O wins!")
-            else:
-                return (True, "Player X wins!")
+        if win:
+            winner = "O" if self.turn == "X" else "X"
+            return (True, f"Player {winner} wins!")
+        return (False, f"Player {self.turn}'s turn.")
                 
 
 
